@@ -4,7 +4,6 @@
 template <typename T>
 
 class SmartPtr
-
 {
 
 private:
@@ -54,7 +53,6 @@ SmartPtr<T>::SmartPtr(T *p)
 }
 template <typename T>
 SmartPtr<T>::SmartPtr(const SmartPtr<T> &orig) //复制构造函数
-
 {
 
     use_count = orig.use_count; //引用计数保存在一块内存，所有的SmarPtr对象的引用计数都指向这里
