@@ -65,12 +65,14 @@ SmartPtr<T>::SmartPtr(const SmartPtr<T> &orig) //复制构造函数
 template <typename T>
 SmartPtr<T> &SmartPtr<T>::operator=(const SmartPtr<T> &rhs)
 {
-    // 重载=运算符，例如SmartPtr<int>p,q; p=q;
+    // 重载=运算符  SmartPtr<int>p,q; p=q;
     // 这个语句中，首先给q指向的对象的引用计数加1，因为p重新指向了q所指的对象，所以p需要先给原来的对象的引用计数减1，
     // 如果减一后为0，先释放掉p原来指向的内存，然后讲q指向的对象的引用计数加1后赋值给p
-
+    
     ++*(rhs.use_count);
-    // 除去多了这一部分的判断，因为如果使用了赋值重载， 要先解引用， 而解引用的过程中可能会使得当前的对象减少
+    // 比拷贝构造函数多了这一部分的判断，因为如果使用了赋值重载， 要先解引用， 
+    // 解引用时 指针可能是指向原来对象得最后一个指针， 此时赋为其他指针得时候，需要释放原来指向得内存
+    // 除此之外， 还要为已经指向这个对象得指针引用计数 + 1
     if ((--*(use_count)) == 0)
     {
         delete ptr;
